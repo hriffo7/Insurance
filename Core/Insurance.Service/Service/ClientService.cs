@@ -33,7 +33,7 @@ namespace Insurance.Service.Service
         public async Task<ClientDto> GetClientById(Guid id)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            ClientDto clientsById = clients.FirstOrDefault(o => o.Id == id);
+            ClientDto clientsById = clients.Where(o => o.Id == id).FirstOrDefault();
 
             return clientsById;
         }

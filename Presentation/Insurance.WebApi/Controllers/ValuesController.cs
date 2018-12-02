@@ -15,6 +15,8 @@ namespace Insurance.WebApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            //throw new Exception("Error Message!");
+
             return new string[] { "value1", "value2" };
         }
 
