@@ -31,7 +31,7 @@ namespace Insurance.WebApi
     {
         #region maps
 
-        private static void RegisterMaps()
+        public static void RegisterMaps()
         {
             AutoMapper.Mapper.Initialize(config =>
             {
