@@ -27,9 +27,11 @@ namespace Insurance.Test.Presentation.Controllers
         }
 
         [TestMethod]
-        public void PolicyController_GET_GetByClientName_Verify()
+        public void PolicyController_GET_GetByClientName_VerifyOkResponse()
         {
-            var result = policyController.GetByClientName("Britney") as OkNegotiatedContentResult<IEnumerable<PolicyViewModel>>; ////as OkNegotiatedContentResult<IEnumerable<GroupDto>>;;
+            OkObjectResult result = policyController.GetByClientName("Britney").Result as OkObjectResult;
+
+            //var test = policyService.Setup(o => o.GetPoliciesByClientName("pepe")).Returns();
 
             Assert.AreEqual(200, result.StatusCode);
         }
