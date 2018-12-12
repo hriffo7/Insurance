@@ -41,7 +41,7 @@ namespace Insurance.Service.Service
         public async Task<IEnumerable<ClientDto>> GetClientByName(string name)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name == name).ToList();
+            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name == name);
 
             return clientsByName;
         }

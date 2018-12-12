@@ -32,7 +32,7 @@ namespace Insurance.WebApi.Filters
             string controller = context.RouteData.Values["Controller"].ToString();
             StringBuilder builder = new StringBuilder();
             builder.Append("/// >>>>>>>>>>>>").Append("Web Request: Operations performed on Controller: ")
-                    .Append(controller).Append(" Action: ").Append(action).Append((context.Exception != null) ? "Success Result" : "With Error").Append(@"<<<<<<< \\\");
+                    .Append(controller).Append(" Action: ").Append(action).Append((context.Exception != null) ? "Success Result" : "").Append(@"<<<<<<< \\\");
             logger.LogInformation(builder.ToString());
             logger.LogInformation(@"/// >>>>>>>>>>>>>>>>>>> APPLICATION LOG <<<<<<<<<<<<<<<<<<<< \\\");
             base.OnActionExecuted(context);

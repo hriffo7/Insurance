@@ -23,33 +23,16 @@ namespace Insurance.Service.Service
             this.clientProxy = clientProxy;
         }
 
-        public async Task<IEnumerable<PolicyDto>> GetPolicies()
-        {
-            IEnumerable<PolicyDto> policy = await GetPoliciesFromExternalService();
-
-            return policy;
-        }
-
-        public async Task<PolicyDto> GetPolicyById(Guid id)
-        {
-            IEnumerable<PolicyDto> policies = await GetPoliciesFromExternalService();
-            PolicyDto policyById = policies.FirstOrDefault(o => o.Id == id);
-
-            return policyById;
-        }
-
         public async Task<IEnumerable<PolicyDto>> GetPoliciesByClientName(string clientName)
         {
             List<PolicyDto> policiesByClients = new List<PolicyDto>();
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            IEnumerable<ClientDto> clientsDto = clients.Where(o => o.Name == clientName).ToList();
+            IEnumerable<ClientDto> clientsDto = clients.Where(o => o.Name == clientName);
             IEnumerable<PolicyDto> policies = await GetPoliciesFromExternalService();
 
             foreach (var item in clientsDto)
             {
-                IEnumerable<PolicyDto> policiesByClient = policies.Where(o => o.ClientId == item.Id).ToList();
-
-                policiesByClients.AddRange(policiesByClient);
+                policiesByClients.AddRange(policies.Where(o => o.ClientId == item.Id));
             }
 
             return policiesByClients;
