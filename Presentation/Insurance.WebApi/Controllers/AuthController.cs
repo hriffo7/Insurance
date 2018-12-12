@@ -26,7 +26,7 @@ namespace Insurance.WebApi.Controllers
         [HttpPost("RequestToken")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
-        public async Task<IActionResult> RequestToken([FromBody]AuthViewModel request)
+        public async Task<IActionResult> RequestToken([FromForm]AuthViewModel request)
         {
             ClientDto clientByEmail = await clientService.GetClientByEmail(request.Email);
 
