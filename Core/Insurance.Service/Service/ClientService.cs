@@ -23,13 +23,6 @@ namespace Insurance.Service.Service
             this.policyProxy = policyProxy;
         }
 
-        public async Task<IEnumerable<ClientDto>> GetClients()
-        {
-            IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-
-            return clients;
-        }
-
         public async Task<ClientDto> GetClientById(Guid id)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();

@@ -7,8 +7,6 @@ namespace Insurance.Service.Contracts
 {
     public interface IClientService
     {
-        Task<IEnumerable<ClientDto>> GetClients();
-
         Task<ClientDto> GetClientById(Guid id);
 
         Task<IEnumerable<ClientDto>> GetClientByName(string name);

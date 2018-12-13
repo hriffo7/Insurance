@@ -22,6 +22,8 @@ namespace Insurance.Test.Presentation.Controllers
 
         private Mock<IPolicyService> mockerPolicyService;
 
+        #region Constants
+
         private const int StatusCodeOK = 200;
 
         private const string ClientName = "Britney";
@@ -61,6 +63,8 @@ namespace Insurance.Test.Presentation.Controllers
             }
         };
 
+        #endregion
+
         [TestInitialize]
         public void SetUp()
         {
@@ -76,8 +80,10 @@ namespace Insurance.Test.Presentation.Controllers
             Mapper.Reset();
         }
 
+        #region GetPoliciesByClientName Action
+
         [TestMethod]
-        public void GetByClientName_WithClientName_VerifyMethodFromLowerLayerThatReturnsTheListOfAssociatedPolicies()
+        public void GetByClientName_WithClientNameAsParameter_VerifyMethodFromLowerLayerThatReturnsTheListOfAssociatedPolicies()
         {
             mockerPolicyService.Setup(o => o.GetPoliciesByClientName(ClientName)).ReturnsAsync(policyDtoX0);
 
@@ -87,7 +93,7 @@ namespace Insurance.Test.Presentation.Controllers
         }
 
         [TestMethod]
-        public void GetByClientName_WithClientName_ReturnsAnEmptyListOfPoliciesWithStatusCodeOK()
+        public void GetByClientName_WithClientNameAsParameter_ReturnsAnEmptyListOfPoliciesWithStatusCodeOK()
         {
             mockerPolicyService.Setup(o => o.GetPoliciesByClientName(ClientName)).ReturnsAsync(policyDtoX0);
 
@@ -99,7 +105,7 @@ namespace Insurance.Test.Presentation.Controllers
         }
 
         [TestMethod]
-        public void GetByClientName_WithClientName_ReturnsListOfPoliciesWithOneElementAndStatusCodeOK()
+        public void GetByClientName_WithClientNameAsParameter_ReturnsListOfPoliciesWithOneElementAndStatusCodeOK()
         {
             mockerPolicyService.Setup(o => o.GetPoliciesByClientName(ClientName)).ReturnsAsync(policyDtoX1);
 
@@ -116,7 +122,7 @@ namespace Insurance.Test.Presentation.Controllers
         }
 
         [TestMethod]
-        public void GetByClientName_WithClientName_ReturnsListOfPoliciesWithTwoElementsAndStatusCodeOK()
+        public void GetByClientName_WithClientNameAsParameter_ReturnsListOfPoliciesWithTwoElementsAndStatusCodeOK()
         {
             mockerPolicyService.Setup(o => o.GetPoliciesByClientName(ClientName)).ReturnsAsync(policyDtoX2);
 
@@ -138,5 +144,7 @@ namespace Insurance.Test.Presentation.Controllers
             Assert.AreEqual(policyDtoX2[1].InceptionDate, policyList[1].InceptionDate);
             Assert.AreEqual(policyDtoX2[1].InstallmentPayment, policyList[1].InstallmentPayment);
         }
+
+        #endregion
     }
 }

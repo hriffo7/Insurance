@@ -22,24 +22,11 @@ namespace Insurance.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetUsers")]
-        //[Authorize(Roles = "user, admin")]
-        [ServiceFilter(typeof(WebExceptionFilter))]
-        [ServiceFilter(typeof(WebLoggerFilter))]
-        public async Task<IActionResult> GetUsers()
-        {
-            IEnumerable<ClientDto> clientDto = await clientService.GetClients();
-            IEnumerable<ClientViewModel> clientViewModel = AutoMapper.Mapper.Map<IEnumerable<ClientViewModel>>(clientDto);
-
-            return Ok(clientViewModel);
-        }
-
-        [HttpGet]
         [Route("GetById/{clientId}")]
         [Authorize(Roles = "user, admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
-        public async Task<IActionResult> GetById(Guid clientId)
+        public async Task<IActionResult> GetClientById(Guid clientId)
         {
             ClientDto clientDto = await clientService.GetClientById(clientId);
             ClientViewModel clientViewModel = AutoMapper.Mapper.Map<ClientViewModel>(clientDto);
@@ -52,7 +39,7 @@ namespace Insurance.WebApi.Controllers
         [Authorize(Roles = "user, admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
-        public async Task<IActionResult> GetByName(string name)
+        public async Task<IActionResult> GetClientByName(string name)
         {
             IEnumerable<ClientDto> clientDto = await clientService.GetClientByName(name);
             IEnumerable<ClientViewModel> clientViewModel = AutoMapper.Mapper.Map<IEnumerable<ClientViewModel>>(clientDto);
@@ -65,7 +52,7 @@ namespace Insurance.WebApi.Controllers
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
-        public async Task<IActionResult> GetByPolicyId(Guid policyId)
+        public async Task<IActionResult> GetClientByPolicyId(Guid policyId)
         {
             ClientDto clientDto = await clientService.GetClientByPolicyId(policyId);
             ClientViewModel clientViewModel = AutoMapper.Mapper.Map<ClientViewModel>(clientDto);
