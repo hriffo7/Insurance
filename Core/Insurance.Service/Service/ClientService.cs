@@ -6,6 +6,7 @@ using Insurance.Proxy.Contracts;
 using Insurance.DTO.Model.Client;
 using Insurance.DTO.Model.Policy;
 using Insurance.Service.Contracts;
+using Microsoft.Extensions.Configuration;
 
 namespace Insurance.Service.Service
 {
@@ -13,20 +14,19 @@ namespace Insurance.Service.Service
     {
         public readonly IHttpProxy<Client> clientProxy;
         public readonly IHttpProxy<Policy> policyProxy;
+        private IConfiguration configuration;
 
-        private const string clientsServiceEndPoint = "http://www.mocky.io/v2/5808862710000087232b75ac";
-        private const string policiesServiceEndPoint = "http://www.mocky.io/v2/580891a4100000e8242b75c5";
-
-        public ClientService(IHttpProxy<Client> httpClientProxy, IHttpProxy<Policy> policyProxy)
+        public ClientService(IHttpProxy<Client> httpClientProxy, IHttpProxy<Policy> policyProxy, IConfiguration configuration)
         {
             this.clientProxy = httpClientProxy;
             this.policyProxy = policyProxy;
+            this.configuration = configuration;
         }
 
         public async Task<ClientDto> GetClientById(Guid id)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            ClientDto clientsById = clients.Where(o => o.Id == id).FirstOrDefault();
+            ClientDto clientsById = clients.FirstOrDefault(o => o.Id == id);
 
             return clientsById;
         }
@@ -52,14 +52,14 @@ namespace Insurance.Service.Service
         public async Task<ClientDto> GetClientByEmail(string email)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            ClientDto clientByEmail = clients.Where(o => o.Email == email).FirstOrDefault();
+            ClientDto clientByEmail = clients.FirstOrDefault(o => o.Email == email);
 
             return clientByEmail;
         }
 
         private async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
         {
-            Client client = await this.clientProxy.GetEntityCollection(clientsServiceEndPoint);
+            Client client = await this.clientProxy.GetEntityCollection(this.configuration["clientsServiceEndPoint"]);
             IEnumerable<ClientDto> clientsDto = client.Clients;
 
             return clientsDto;
@@ -67,7 +67,7 @@ namespace Insurance.Service.Service
 
         private async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
         {
-            Policy policy = await this.policyProxy.GetEntityCollection(policiesServiceEndPoint);
+            Policy policy = await this.policyProxy.GetEntityCollection(this.configuration["policiesServiceEndPoint"]);
             IEnumerable<PolicyDto> policyDto = policy.Policies;
 
             return policyDto;

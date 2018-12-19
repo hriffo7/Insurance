@@ -4,15 +4,22 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Insurance.DTO.Model.Client;
 using Insurance.Security.Contracts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Insurance.Security.Authentication
 {
     public class Authentication : IAuthentication
     {
+        private IConfiguration configuration;
+
+        public Authentication(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
         public string GenerateJwtToken(ClientDto client)
         {
-            byte[] secret = Convert.FromBase64String("856FECBA3B06519C8DDDBC80BB080557");
+            byte[] secret = Convert.FromBase64String(this.configuration["secret"]);
             SymmetricSecurityKey credentials = new SymmetricSecurityKey(secret);
 
             List<Claim> claimsList = new List<Claim>();

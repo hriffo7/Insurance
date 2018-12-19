@@ -6,6 +6,7 @@ using Insurance.DTO.Model.Client;
 using Insurance.DTO.Model.Policy;
 using Insurance.Proxy.Contracts;
 using Insurance.Service.Contracts;
+using Microsoft.Extensions.Configuration;
 
 namespace Insurance.Service.Service
 {
@@ -13,14 +14,13 @@ namespace Insurance.Service.Service
     {
         public readonly IHttpProxy<Policy> policyProxy;
         public readonly IHttpProxy<Client> clientProxy;
+        private IConfiguration configuration;
 
-        private const string policiesServiceEndPoint = "http://www.mocky.io/v2/580891a4100000e8242b75c5";
-        private const string clientsServiceEndPoint = "http://www.mocky.io/v2/5808862710000087232b75ac";
-
-        public PolicyService(IHttpProxy<Policy> httpPolicyProxy, IHttpProxy<Client> clientProxy)
+        public PolicyService(IHttpProxy<Policy> httpPolicyProxy, IHttpProxy<Client> clientProxy, IConfiguration configuration)
         {
             this.policyProxy = httpPolicyProxy;
             this.clientProxy = clientProxy;
+            this.configuration = configuration;
         }
 
         public async Task<IEnumerable<PolicyDto>> GetPoliciesByClientName(string clientName)
@@ -40,7 +40,7 @@ namespace Insurance.Service.Service
 
         private async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
         {
-            Policy policy = await this.policyProxy.GetEntityCollection(policiesServiceEndPoint);
+            Policy policy = await this.policyProxy.GetEntityCollection(this.configuration["policiesServiceEndPoint"]);
             IEnumerable<PolicyDto> policiesDto = policy.Policies;
 
             return policiesDto;
@@ -48,7 +48,7 @@ namespace Insurance.Service.Service
 
         private async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
         {
-            Client client = await this.clientProxy.GetEntityCollection(clientsServiceEndPoint);
+            Client client = await this.clientProxy.GetEntityCollection(this.configuration["clientsServiceEndPoint"]);
             IEnumerable<ClientDto> clientsDto = client.Clients;
 
             return clientsDto;

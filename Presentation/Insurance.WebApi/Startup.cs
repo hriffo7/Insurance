@@ -56,8 +56,11 @@ namespace Insurance.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterMaps();
+
             // for production, store the secret into AWS Secrets Manager, Azure or similar
-            byte[] symmetricKey = Convert.FromBase64String("856FECBA3B06519C8DDDBC80BB080557");
+            string secretKey = Configuration["secret"];
+
+            byte[] symmetricKey = Convert.FromBase64String(secretKey);
             SymmetricSecurityKey secret = new SymmetricSecurityKey(symmetricKey);
 
             TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
