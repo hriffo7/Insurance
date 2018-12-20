@@ -33,6 +33,32 @@ namespace Insurance.Test.Presentation.Controllers
 
         private Guid PolicyId = Guid.Parse("7b624ed3-00d5-4c1b-9ab8-c265067ef58b");
 
+        private static readonly List<ClientDto> clientDtoX0 = new List<ClientDto>();
+
+        private static readonly List<ClientDto> clientDtoX1 = new List<ClientDto>{
+             new ClientDto{
+                Id = Guid.Parse("a0ece5db-cd14-4f21-812f-966633e7be86"),
+                Name = "Britney",
+                Email = "britneyblankenship@quotezart.com",
+                Role = "admin"
+             }
+         };
+
+        private static readonly List<ClientDto> clientDtoX2 = new List<ClientDto>{
+             new ClientDto{
+                Id = Guid.Parse("a0ece5db-cd14-4f21-812f-966633e7be86"),
+                Name = "Britney",
+                Email = "britneyblankenship@quotezart.com",
+                Role = "admin"
+             },
+             new ClientDto{
+                Id = Guid.Parse("a3b8d425-2b60-4ad7-becc-bedf2ef860bd"),
+                Name = "Barnett",
+                Email = "barnettblankenship@quotezart.com",
+                Role = "user"
+             }
+         };
+
         private static readonly ClientDto clientDto = new ClientDto()
         {
             Id = Guid.Parse("a0ece5db-cd14-4f21-812f-966633e7be86"),
@@ -113,6 +139,70 @@ namespace Insurance.Test.Presentation.Controllers
             Assert.AreEqual(clientDto.Name, clientViewModel.Name);
             Assert.AreEqual(clientDto.Email, clientViewModel.Email);
             Assert.AreEqual(clientDto.Role, clientViewModel.Role);
+        }
+
+        #endregion
+
+
+        #region GetClientByName Action
+
+        [TestMethod]
+        public void GetClientByName_WithClientNameAsParameter_VerifyMethodFromLowerLayerThatReturnsTheListOfClientsWithSpecificName()
+        {
+            mockerClientService.Setup(o => o.GetClientByName(ClientName)).ReturnsAsync(clientDtoX0);
+
+            OkObjectResult result = clientController.GetClientByName(ClientName).Result as OkObjectResult;
+
+            mockerClientService.Verify(o => o.GetClientByName(ClientName), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetClientByName_WithClientNameAsParameter_ReturnsAnEmptyListOfClientsWithStatusCodeOK()
+        {
+            mockerClientService.Setup(o => o.GetClientByName(ClientName)).ReturnsAsync(clientDtoX0);
+
+            OkObjectResult result = clientController.GetClientByName(ClientName).Result as OkObjectResult;
+            List<ClientViewModel> clientList = result.Value as List<ClientViewModel>;
+
+            Assert.AreEqual(StatusCodeOK, result.StatusCode);
+            Assert.AreEqual(clientDtoX0.Count, clientList.Count());
+        }
+
+        [TestMethod]
+        public void GetClientByName_WithClientNameAsParameter_ReturnsListOfClientsWithOneElementAndStatusCodeOK()
+        {
+            mockerClientService.Setup(o => o.GetClientByName(ClientName)).ReturnsAsync(clientDtoX1);
+
+            OkObjectResult result = clientController.GetClientByName(ClientName).Result as OkObjectResult;
+            List<ClientViewModel> clientList = result.Value as List<ClientViewModel>;
+
+            Assert.AreEqual(StatusCodeOK, result.StatusCode);
+            Assert.AreEqual(clientDtoX1.Count, clientList.Count());
+            Assert.AreEqual(clientDtoX1[0].Id, clientList[0].Id);
+            Assert.AreEqual(clientDtoX1[0].Email, clientList[0].Email);
+            Assert.AreEqual(clientDtoX1[0].Name, clientList[0].Name);
+            Assert.AreEqual(clientDtoX1[0].Role, clientList[0].Role);
+        }
+
+        [TestMethod]
+        public void GetClientByName_WithClientNameAsParameter_ReturnsListOfClientsWithTwoElementsAndStatusCodeOK()
+        {
+            mockerClientService.Setup(o => o.GetClientByName(ClientName)).ReturnsAsync(clientDtoX2);
+
+            OkObjectResult result = clientController.GetClientByName(ClientName).Result as OkObjectResult;
+            List<ClientViewModel> clientList = result.Value as List<ClientViewModel>;
+
+            Assert.AreEqual(StatusCodeOK, result.StatusCode);
+            Assert.AreEqual(clientDtoX2.Count, clientList.Count());
+            Assert.AreEqual(clientDtoX2[0].Id, clientList[0].Id);
+            Assert.AreEqual(clientDtoX2[0].Email, clientList[0].Email);
+            Assert.AreEqual(clientDtoX2[0].Name, clientList[0].Name);
+            Assert.AreEqual(clientDtoX2[0].Role, clientList[0].Role);
+
+            Assert.AreEqual(clientDtoX2[1].Id, clientList[1].Id);
+            Assert.AreEqual(clientDtoX2[1].Email, clientList[1].Email);
+            Assert.AreEqual(clientDtoX2[1].Name, clientList[1].Name);
+            Assert.AreEqual(clientDtoX2[1].Role, clientList[1].Role);
         }
 
         #endregion
