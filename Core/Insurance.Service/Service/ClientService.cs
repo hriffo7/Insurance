@@ -14,7 +14,7 @@ namespace Insurance.Service.Service
     {
         public readonly IHttpProxy<Client> clientProxy;
         public readonly IHttpProxy<Policy> policyProxy;
-        private IConfiguration configuration;
+        public IConfiguration configuration;
 
         public ClientService(IHttpProxy<Client> httpClientProxy, IHttpProxy<Policy> policyProxy, IConfiguration configuration)
         {
@@ -26,7 +26,7 @@ namespace Insurance.Service.Service
         public async Task<ClientDto> GetClientById(Guid id)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            ClientDto clientsById = clients.FirstOrDefault(o => o.Id == id);
+            ClientDto clientsById = clients?.FirstOrDefault(o => o.Id == id);
 
             return clientsById;
         }
@@ -34,7 +34,7 @@ namespace Insurance.Service.Service
         public async Task<IEnumerable<ClientDto>> GetClientByName(string name)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name == name);
+            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name == name).ToList();
 
             return clientsByName;
         }
@@ -57,15 +57,15 @@ namespace Insurance.Service.Service
             return clientByEmail;
         }
 
-        private async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
+        public async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
         {
             Client client = await this.clientProxy.GetEntityCollection(this.configuration["clientsServiceEndPoint"]);
-            IEnumerable<ClientDto> clientsDto = client.Clients;
+            IEnumerable<ClientDto> clientsDto = client?.Clients;
 
             return clientsDto;
         }
 
-        private async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
+        public async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
         {
             Policy policy = await this.policyProxy.GetEntityCollection(this.configuration["policiesServiceEndPoint"]);
             IEnumerable<PolicyDto> policyDto = policy.Policies;
