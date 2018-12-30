@@ -24,6 +24,7 @@ namespace Insurance.Test.Presentation.Controllers
         private Mock<IAuthentication> mockerAuthService;
         private Mock<IClientService> mockerClientService;
 
+        #region Constant
         private const int StatusCodeOK = 200;
 
         private const int StatusCodeUnauthorized = 401;
@@ -47,6 +48,8 @@ namespace Insurance.Test.Presentation.Controllers
             Role = "admin"
         };
 
+        #endregion
+
         [TestInitialize]
         public void SetUp()
         {
@@ -55,6 +58,17 @@ namespace Insurance.Test.Presentation.Controllers
             mockerClientService = new Mock<IClientService>();
             authController = new AuthController(mockerClientService.Object, mockerAuthService.Object);
         }
+
+        #region Constructor
+
+        [TestMethod]
+        public void AuthController_WithParameters_VerifiesConstructorsObjects()
+        {
+            Assert.IsNotNull(authController.authentication);
+            Assert.IsNotNull(authController.clientService);
+        }
+
+        #endregion
 
         #region RequestToken Action
 

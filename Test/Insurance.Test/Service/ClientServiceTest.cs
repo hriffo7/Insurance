@@ -204,7 +204,7 @@ namespace Insurance.Test.Service
         }
 
         [TestMethod]
-        public void GetClientByName_WithNameAsParameter_ReturnsTheClientByNameWithouthMatches()
+        public void GetClientByName_WithNonExistentNameAsParameter_ReturnsTheEmptyListOfClients()
         {
             mockerClientProxy.Setup(o => o.GetEntityCollection(It.IsAny<string>())).ReturnsAsync(clientX2);
 

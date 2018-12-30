@@ -74,6 +74,16 @@ namespace Insurance.Test.Presentation.Controllers
 
         }
 
+        #region Constructor
+
+        [TestMethod]
+        public void PolicyController_WithParameters_VerifiesConstructorsObjects()
+        {
+            Assert.IsNotNull(policyController.policyService);
+        }
+
+        #endregion
+
         [TestCleanup]
         public void CleanUp()
         {

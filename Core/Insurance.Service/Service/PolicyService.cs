@@ -14,7 +14,7 @@ namespace Insurance.Service.Service
     {
         public readonly IHttpProxy<Policy> policyProxy;
         public readonly IHttpProxy<Client> clientProxy;
-        private IConfiguration configuration;
+        public IConfiguration configuration;
 
         public PolicyService(IHttpProxy<Policy> httpPolicyProxy, IHttpProxy<Client> clientProxy, IConfiguration configuration)
         {
@@ -38,7 +38,7 @@ namespace Insurance.Service.Service
             return policiesByClients;
         }
 
-        private async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
+        public async Task<IEnumerable<PolicyDto>> GetPoliciesFromExternalService()
         {
             Policy policy = await this.policyProxy.GetEntityCollection(this.configuration["policiesServiceEndPoint"]);
             IEnumerable<PolicyDto> policiesDto = policy.Policies;
@@ -46,7 +46,7 @@ namespace Insurance.Service.Service
             return policiesDto;
         }
 
-        private async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
+        public async Task<IEnumerable<ClientDto>> GetClientsFromExternalService()
         {
             Client client = await this.clientProxy.GetEntityCollection(this.configuration["clientsServiceEndPoint"]);
             IEnumerable<ClientDto> clientsDto = client.Clients;

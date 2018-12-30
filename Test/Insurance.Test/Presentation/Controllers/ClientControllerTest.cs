@@ -84,6 +84,16 @@ namespace Insurance.Test.Presentation.Controllers
             Mapper.Reset();
         }
 
+        #region Constructor
+
+        [TestMethod]
+        public void ClientController_WithParameters_VerifiesConstructorsObjects()
+        {
+            Assert.IsNotNull(clientController.clientService);
+        }
+
+        #endregion
+
         #region GetClientById Action
 
         [TestMethod]
