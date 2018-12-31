@@ -34,7 +34,7 @@ namespace Insurance.Service.Service
         public async Task<IEnumerable<ClientDto>> GetClientByName(string name)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name == name).ToList();
+            IEnumerable<ClientDto> clientsByName = clients.Where(o => o.Name.ToLower() == name.ToLower()).ToList();
 
             return clientsByName;
         }
@@ -52,7 +52,7 @@ namespace Insurance.Service.Service
         public async Task<ClientDto> GetClientByEmail(string email)
         {
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            ClientDto clientByEmail = clients.FirstOrDefault(o => o.Email == email);
+            ClientDto clientByEmail = clients.FirstOrDefault(o => o.Email.ToLower() == email.ToLower());
 
             return clientByEmail;
         }

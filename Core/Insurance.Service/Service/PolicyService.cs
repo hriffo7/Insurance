@@ -27,7 +27,7 @@ namespace Insurance.Service.Service
         {
             List<PolicyDto> policiesByClients = new List<PolicyDto>();
             IEnumerable<ClientDto> clients = await GetClientsFromExternalService();
-            IEnumerable<ClientDto> clientsDto = clients.Where(o => o.Name == clientName);
+            IEnumerable<ClientDto> clientsDto = clients.Where(o => o.Name.ToLower() == clientName.ToLower());
             IEnumerable<PolicyDto> policies = await GetPoliciesFromExternalService();
 
             foreach (var item in clientsDto)
