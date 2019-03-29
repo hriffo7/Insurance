@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Insurance.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     public class ClientController : Controller
     {
         public IClientService clientService { get; set; }
@@ -22,7 +21,7 @@ namespace Insurance.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetById/{clientId}")]
+        [Route("api/Client/{clientId}")]
         [Authorize(Roles = "user, admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
@@ -35,7 +34,7 @@ namespace Insurance.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetByName/{name}")]
+        [Route("api/Client/Name/{name}")]
         [Authorize(Roles = "user, admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
@@ -48,7 +47,7 @@ namespace Insurance.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetByPolicyId/{policyId}")]
+        [Route("api/Policies/{policyId}/Clients")]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]

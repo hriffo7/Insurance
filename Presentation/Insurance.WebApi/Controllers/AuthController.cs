@@ -23,7 +23,7 @@ namespace Insurance.WebApi.Controllers
             this.authentication = authentication;
         }
 
-        [HttpPost("RequestToken")]
+        [HttpPost]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
         public async Task<IActionResult> RequestToken([FromForm]AuthViewModel request)

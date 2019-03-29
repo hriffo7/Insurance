@@ -24,7 +24,7 @@ namespace Insurance.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetByClientName/{clientName}")]
+        [Route("{clientName}")]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(WebExceptionFilter))]
         [ServiceFilter(typeof(WebLoggerFilter))]
