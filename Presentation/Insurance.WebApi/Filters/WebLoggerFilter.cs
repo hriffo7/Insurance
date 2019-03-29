@@ -34,6 +34,7 @@ namespace Insurance.WebApi.Filters
             builder.Append("/// >>>>>>>>>>>>").Append("Web Request: Operations performed on Controller: ")
                     .Append(controller).Append(" Action: ").Append(action).Append((context.Exception != null) ? "Success Result" : "").Append(@"<<<<<<< \\\");
             logger.LogInformation(builder.ToString());
+            logger.LogInformation($"Status Code: {context.HttpContext.Response.StatusCode}");
             logger.LogInformation(@"/// >>>>>>>>>>>>>>>>>>> APPLICATION LOG <<<<<<<<<<<<<<<<<<<< \\\");
             base.OnActionExecuted(context);
         }
