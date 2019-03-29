@@ -35,6 +35,5 @@ namespace Insurance.WebApi.Controllers
 
             return Ok(policiesViewModel);
         }
-
     }
 }
